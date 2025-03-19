@@ -50,6 +50,7 @@ public class learnScreenshots {
 
         page.close();
         playwright.close();
+        browser.close();
 
     }
 }

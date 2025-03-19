@@ -57,5 +57,8 @@ public class InteractWithDropdowns {
         List<String> allstates = options.allInnerTexts();
         allstates.forEach(option -> System.out.println(option));
 
+        page.close();
+
+
     }
 }
