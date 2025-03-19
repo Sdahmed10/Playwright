@@ -12,7 +12,9 @@ public class TestRecord {
         Page.ScreenshotOptions screenshotOptions = new Page.ScreenshotOptions();
         Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
                 .setHeadless(false));
-        BrowserContext context = browser.newContext();
+        BrowserContext context = browser.newContext(
+                new Browser.NewContextOptions().setRecordVideoDir(Paths.get("video/"))
+        );
         Page page = context.newPage();
         page.navigate("https://ecommerce-playground.lambdatest.io/index.php?route=common/home");
         Locator MyAccount = page.locator("//a[@role='button']//span[@class='title'][normalize-space()='My account']");
@@ -25,7 +27,7 @@ public class TestRecord {
                 .setPath(Paths.get("./Record/Login.png")));
         System.out.println("Login successful");
         page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Edit your account")).click();
-        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Last Name*")).fill("Chaterjee1234");
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Last Name*")).fill("Ahmed");
         page.screenshot(screenshotOptions.setFullPage(true)
                 .setPath(Paths.get("./Record/Edit lastname.png")));
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Continue")).click();
@@ -37,6 +39,9 @@ public class TestRecord {
                 .setPath(Paths.get("./Record/Logout.png")));
         System.out.println("Logout Successful");
         page.close();
+        context.close();
+        browser.close();
+        playwright.close();
     }
 }
 
