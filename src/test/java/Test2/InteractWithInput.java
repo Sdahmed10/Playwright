@@ -24,8 +24,9 @@ public class InteractWithInput {
 
         //Click Action
         //Saisit le texte "Hello World"
-        page.locator("//input[@id='user-message']").type("Hello World");
-
+//        page.locator("//input[@id='user-message']").type("Hello World");
+        page.locator("//input[@id='user-message']").fill("Hello World");
+//
         //Clique sur le bouton pour afficher le message saisi.
         page.locator("//button[@id='showInput']").click();
 

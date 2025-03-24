@@ -17,7 +17,9 @@ public class Orange {
             page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Username")).press("CapsLock");
             page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Username")).fill("Admin");
             page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Username")).press("Tab");
-            page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Password")).fill("admin123");
+            page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Password")).fill("admin12356");
+//            System.out.println("Login successful");
+            System.out.println("Login failed");
             page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Login")).click();
             page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("Dashboard")).click();
             page.getByRole(AriaRole.BANNER).getByRole(AriaRole.IMG, new Locator.GetByRoleOptions().setName("profile picture")).click();
