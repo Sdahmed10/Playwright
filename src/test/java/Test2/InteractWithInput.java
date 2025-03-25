@@ -42,6 +42,7 @@ public class InteractWithInput {
 
         //Tape "Hello World" caractère par caractère
         page.locator("//textarea[@id='textbox']").type("Hello World");
+        //page.locator("//textarea[@id='textbox']").fill("Hello World");
 
 
         //get input values
