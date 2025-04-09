@@ -9,10 +9,14 @@ public class MultipleBrowser {
     public static void main(String[] args) {
 
         Playwright playwright = Playwright.create();
+
+        // Chromium browser
         Browser browser = playwright.chromium().launch(
                 new BrowserType.LaunchOptions().setHeadless(false)
         );
 
+
+        // First context and page
         BrowserContext context = browser.newContext();
         Page page = context.newPage();
 
@@ -40,6 +44,7 @@ public class MultipleBrowser {
         newTab2.close();
         newContext.close();
 
+        // Firefox browser
         Browser firefox =  playwright.firefox().launch(
                 new BrowserType.LaunchOptions().setHeadless(false)
         );
