@@ -40,8 +40,15 @@ public class MultipleBrowser {
         newTab2.close();
         newContext.close();
 
-        BrowserType firefox = playwright.firefox();
-        Page firefoxPage = firefox.launch(new BrowserType.LaunchOptions().setHeadless(false)).newPage();
+        Browser firefox =  playwright.firefox().launch(
+                new BrowserType.LaunchOptions().setHeadless(false)
+        );
+        Page firefoxPage = firefox.newPage();
+        firefoxPage.navigate("https://ecommerce-playground.lambdatest.io");
+        System.out.println("Firefox page title: " + firefoxPage.title());
+        firefoxPage.close();
+        firefox.close();
+
 
         browser.close();
         playwright.close();
