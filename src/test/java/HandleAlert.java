@@ -1,35 +1,45 @@
 import com.microsoft.playwright.*;
 
 public class HandleAlert {
-    public static void main(String[] args) {
-        try (Playwright playwright = Playwright.create()) {
+    public static void main(String[] args) throws InterruptedException {
+        Playwright playwright = Playwright.create();
             Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
             Page page = browser.newPage();
 
-            page.navigate("https://www.lambdatest.com/selenium-playground/javascript-alert-box-demo");
-
-            // Gérer toutes les boîtes de dialogue
+            //JS Alerts, Prompt ,Confirmation popups
             page.onDialog(dialog -> {
-                System.out.println("Alerte détectée: " + dialog.message());
-                dialog.accept("Test Playwright");
+                String text = dialog.message();
+                System.out.println(text);
+                dialog.accept("Hi Im Sdiri Ahmed");
+
             });
 
-            // Récupérer tous les boutons ayant "Click Me"
-            Locator buttons = page.locator("text='Click Me'");
+            page.navigate("https://the-internet.herokuapp.com/javascript_alerts");
 
-            // 1. Cliquer sur la première alerte simple
-            buttons.nth(0).click();
+            //JS Alerts ,Confirmation popups
+            page.locator("//button[normalize-space()='Click for JS Alert']").click();
+            String result = page.textContent("//p[@id='result']");
+            System.out.println(result);
 
-            // 2. Cliquer sur la boîte de confirmation
-            buttons.nth(1).click();
-            System.out.println("Message après confirmation: " + page.locator("#confirm-demo").textContent());
+            Thread.sleep(2000);
 
-            // 3. Cliquer sur la boîte de prompt
-            buttons.nth(2).click();
-            System.out.println("Message après prompt: " + page.locator("#prompt-demo").textContent());
+            page.locator("//button[normalize-space()='Click for JS Confirm']").click();
+            String result1 = page.textContent("//p[@id='result']");
+            System.out.println(result1);
 
-            page.waitForTimeout(3000);
+            Thread.sleep(2000);
+
+            //prompt
+            page.locator("//button[normalize-space()='Click for JS Prompt']").click();
+            String result2 = page.textContent("//p[@id='result']");
+            System.out.println(result2);
+
+            Thread.sleep(2000);
+
+            page.close();
             browser.close();
+            playwright.close();
+
+
         }
     }
-}

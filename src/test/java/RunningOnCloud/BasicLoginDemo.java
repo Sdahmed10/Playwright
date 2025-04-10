@@ -3,10 +3,11 @@ package RunningOnCloud;
 import com.google.gson.JsonObject;
 import com.microsoft.playwright.*;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class BasicLoginDemo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedEncodingException {
         JsonObject capabilities = new JsonObject();
         JsonObject ltOptions = new JsonObject();
 
@@ -15,7 +16,7 @@ public class BasicLoginDemo {
 
         capabilities.addProperty("browserName", "Chrome"); // correction de l'orthographe
         capabilities.addProperty("browserVersion", "latest"); // correction de l'orthographe
-        ltOptions.addProperty("platform", "macOS 14"); // correction ici, "macOS Sonoma" devient "macOS 14"
+        ltOptions.addProperty("platform", "macOS Sonoma"); // correction ici, "macOS Sonoma" devient "macOS 14"
         ltOptions.addProperty("name", "Playwright Test");
         ltOptions.addProperty("build", "Playwright Java Build 2");
         ltOptions.addProperty("user", user);
@@ -25,11 +26,12 @@ public class BasicLoginDemo {
         // Playwright test
         Playwright playwright = Playwright.create();
         BrowserType chrome = playwright.chromium();
+        String caps = URLEncoder.encode(capabilities.toString(), "UTF-8");
+        String cdpUrl = "wss://cdp.lambdatest.com/playwright?capabilities=" + caps;
+        Browser browser = chrome.connect(cdpUrl);
+        Page page = browser.newPage();
         try {
-            String caps = URLEncoder.encode(capabilities.toString(), "UTF-8");
-            String cdpUrl = "wss://cdp.lambdatest.com/playwright?capabilities=" + caps;
-            Browser browser = chrome.connect(cdpUrl);
-            Page page = browser.newPage();
+
             page.navigate("https://duckduckgo.com/");
             Locator locator = page.locator("//input[@id='searchbox_input']");
             locator.click();
@@ -51,7 +53,9 @@ public class BasicLoginDemo {
         }
     }
 
-    private static void setTestStatus(String status, String message, Page page) {
-        page.evaluate("lambdatest_action: {\"action\" : \"setTestStatus\", \"arguments\": {\"status\": \"" + status + "\", \"message\": \"" + message + "\"}}");
+    public static void setTestStatus(String status, String remark, Page page) {
+        page.evaluate("_ => {}",
+                "lambdatest_action: { \"action\": \"setTestStatus\", \"arguments\": { \"status\": \"" + status
+                        + "\", \"remark\": \"" + remark + "\"}}");
     }
 }
